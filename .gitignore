@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/
+*.tsbuildinfo
+.env
+.tmp/
+*.db
+*.db-*
+.DS_Store
+*.pem
+release-key/

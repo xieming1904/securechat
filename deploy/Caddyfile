@@ -1,0 +1,8 @@
+chat.example.com {
+	encode zstd gzip
+	# 把真实客户端 IP 通过 X-Forwarded-For 传给应用（Caddy 默认会做）
+	reverse_proxy app:3000
+	log {
+		output discard
+	}
+}

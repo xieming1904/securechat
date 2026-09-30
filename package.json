@@ -1,0 +1,17 @@
+{
+  "name": "secure-chat",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w server & npm run dev -w web",
+    "build": "npm run build -w web && npm run build -w server",
+    "start": "npm run start -w server",
+    "test": "npm run test -w server",
+    "init": "npm run init -w server --",
+    "allow-ip": "npm run allow-ip -w server --"
+  }
+}

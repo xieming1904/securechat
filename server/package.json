@@ -1,0 +1,39 @@
+{
+  "name": "@secure-chat/server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/index.js",
+    "test": "vitest run",
+    "loadtest": "tsx test/load.ts",
+    "init": "tsx scripts/init.ts",
+    "allow-ip": "tsx scripts/allow-ip.ts",
+    "init:prod": "node dist/scripts/init.js",
+    "allow-ip:prod": "node dist/scripts/allow-ip.js"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/static": "^10.1.5",
+    "@serenity-kit/opaque": "^1.1.0",
+    "@simplewebauthn/server": "^14.0.3",
+    "better-sqlite3": "^13.0.3",
+    "fastify": "^5.12.5",
+    "libsodium-wrappers-sumo": "^0.8.4",
+    "proxy-addr": "^2.0.8",
+    "socket.io": "^4.8.4",
+    "tsx": "^4.23.15",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/libsodium-wrappers-sumo": "^0.7.8",
+    "@types/node": "^26.6.3",
+    "@types/proxy-addr": "^2.0.3",
+    "@types/web-push": "^3.6.4",
+    "socket.io-client": "^4.8.4",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
+  }
+}

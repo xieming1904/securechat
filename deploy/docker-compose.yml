@@ -1,0 +1,37 @@
+# 用法：在 deploy/ 目录下
+#   1. 把 Caddyfile 里的 chat.example.com 换成你的域名，并把域名解析到服务器
+#   2. docker compose up -d --build
+#   3. docker compose exec app node server/dist/scripts/init.js --password '你的访问密码' --origin https://chat.example.com
+services:
+  app:
+    build: ..
+    restart: unless-stopped
+    environment:
+      - TRUST_PROXY=uniquelocal,loopback   # 只信任同一 Docker 网络里的 Caddy 传来的真实 IP
+      - PUBLIC_ORIGIN=https://chat.example.com
+      - LOG_LEVEL=warn
+      # OPAQUE 服务器长期密钥。强烈建议设置，这样它不会出现在数据库备份里：
+      #   docker run --rm node:22-slim npx -y @serenity-kit/opaque@1.1.0 create-server-setup
+      # 首次启动前就设好，之后永远不要改：改了以后所有账号都无法登录，恢复词也会一起失效。
+      - OPAQUE_SERVER_SETUP=${OPAQUE_SERVER_SETUP:-}
+      # 推送通知（可选，不设则自动生成）
+      - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY:-}
+      - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY:-}
+    volumes:
+      - ./data:/data
+    # 注意：不要把 3000 端口直接暴露到公网，所有流量必须经过 Caddy
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [app]
+volumes:
+  caddy_data: {}
+  caddy_config: {}
